@@ -4,7 +4,7 @@
 ### 환경
 - SpringBoot
 - JAVA11
-- MongoDB (추후에 변경 가능)
+- PostgreSQL (예제와 같은 관계형 DB로 선택 )
 - Thymleaf
 - JPA
 - ---
