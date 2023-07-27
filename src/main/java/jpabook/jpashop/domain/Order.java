@@ -12,6 +12,10 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
 
+    protected Order() {
+
+    }
+
     @Id
     @GeneratedValue
     @Column(name = "order_id")
@@ -33,8 +37,16 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+//////////////////////////기본 set/////////////////////////////////////////
 
 
+
+
+
+
+
+
+//////////////////////연관관계 set//////////////////////////////////
     public void setMember(Member member) {
         this.member = member;
         member.getOrders().add(this);
@@ -51,6 +63,59 @@ public class Order {
     public void setDelivery(Delivery delivery) {
         delivery.setOrder(this);
         this.delivery = delivery;
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems) {
+
+        Order order = new Order();
+        order.setMember(member);
+        order.setDelivery(delivery);
+
+        for (OrderItem orderItem : orderItems) {
+            order.setOrderItem(orderItem);
+        }
+
+        order.status = OrderStatus.ORDER;
+        order.orderDate = LocalDateTime.now();
+
+        return order;
+
+        
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+    public void cancel() {
+
+        if (this.delivery.getStatus() == DeliveryStatus.COMP) {
+            throw new IllegalStateException("이미 배송이 완료된 상품입니다");
+        }
+
+        this.status = OrderStatus.CANCEL;
+        for (OrderItem orderItem : orderItems) {
+
+            orderItem.cancel();
+
+        }
+
+
+    }
+
+
+    public int getTotalPrice() {
+
+        int totalPrice = 0;
+
+        for (OrderItem orderItem : orderItems) {
+
+            totalPrice += orderItem.getTotalPrice();
+
+        }
+
+        return totalPrice;
+
     }
 
 
