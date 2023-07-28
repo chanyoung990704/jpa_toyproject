@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>홈페이지</title>
+    <th:block th:replace="fragments/head :: head"></th:block>
+</head>
+<body>
+<th:block th:replace="fragments/body :: body"></th:block>
+
+<div class="container mt-4">
+    <div class="jumbotron">
+        <!-- 점보트론 내용 -->
+
+        <!-- 버튼 그룹들 -->
+
+        <div class="btn-toolbar d-flex mb-4" role="toolbar" aria-label="회원">
+            <a class="btn btn-primary btn-lg mr-5" href="members/new" role="button">회원 가입</a>
+            <a class="btn btn-primary btn-lg mr-5" href="#" role="button">회원 목록</a>
+        </div>
+
+        <!-- 두 번째 버튼 그룹 -->
+        <div class="btn-toolbar d-flex mb-4" role="toolbar" aria-label="상품">
+            <a class="btn btn-primary btn-lg mr-5" href="#" role="button">상품 등록</a>
+            <a class="btn btn-primary btn-lg mr-5" href="#" role="button">상품 목록</a>
+        </div>
+
+        <div class="btn-toolbar d-flex" role="toolbar" aria-label="주문">
+            <a class="btn btn-primary btn-lg mr-5" href="#" role="button">상품 주문</a>
+            <a class="btn btn-primary btn-lg mr-5" href="#" role="button">주문 내역</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <th:block th:replace="fragments/footer :: footer"></th:block>
+</footer>
+
+<!-- 부트스트랩 JS 및 jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
