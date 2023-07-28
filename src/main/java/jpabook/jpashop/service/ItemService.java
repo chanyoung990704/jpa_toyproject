@@ -1,5 +1,6 @@
 package jpabook.jpashop.service;
 
+import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,16 @@ public class ItemService {
     }
 
 
+    public void updateBook(Long itemId, String name, int price, int stockQuantity, String author, String isbn) {
+        Book one = (Book) itemRepository.findOne(itemId);
+        one.setName(name);
+        one.setPrice(price);
+        one.setStockQuantity(stockQuantity);
+        one.setAuthor(author);
+        one.setIsbn(isbn);
+
+
+    }
 
 
 

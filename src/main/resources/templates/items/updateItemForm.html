@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>상품 수정</title>
+  <!-- 부트스트랩 CSS -->
+  <th:block th:replace="fragments/head :: head"></th:block>
+</head>
+<body>
+<th:block th:replace="fragments/body :: body"></th:block>
+
+<div class="container mt-4">
+  <h2>상품 수정</h2>
+  <form th:object="${form}" method="post">
+
+
+    <div class="form-group">
+      <label>이름:</label>
+      <input type="text" class="form-control" th:field="*{name}" required>
+    </div>
+
+    <div class="form-group">
+      <label>가격:</label>
+      <input type="text" class="form-control" th:field="*{price}" required>
+    </div>
+
+    <div class="form-group">
+      <label>수량</label>
+      <input type="text" class="form-control" th:field="*{stockQuantity}" required>
+    </div>
+
+    <div class="form-group">
+      <label>저자</label>
+      <input type="text" class="form-control" th:field="*{author}" required>
+    </div>
+    <div class="form-group">
+      <label>isbn</label>
+      <input type="text" class="form-control" th:field="*{isbn}" required>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">수정하기</button>
+  </form>
+</div>
+<footer>
+  <th:block th:replace="fragments/footer :: footer"></th:block>
+</footer>
+
+<!-- 부트스트랩 JS 및 jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
