@@ -2,12 +2,14 @@ package jpabook.jpashop.repository;
 
 import com.querydsl.core.Query;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.QMember;
 import jpabook.jpashop.domain.QOrder;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -41,17 +43,23 @@ public class OrderRepository {
 
         QMember member = QMember.member;
         QOrder order = QOrder.order;
-        BooleanExpression predicate = order.status.eq(orderSearch.getOrderStatus());
 
-        if (orderSearch.getMemberName() != null && !orderSearch.getMemberName().isEmpty()) {
-            predicate = predicate.and(order.member.name.eq(orderSearch.getMemberName()));
+        JPAQuery<Order> query = queryFactory.selectFrom(order)
+                .join(order.member, member);
+
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            query.where(member.name.containsIgnoreCase(orderSearch.getMemberName()));
         }
 
-        return queryFactory
-                .selectFrom(order)
-                .join(order.member, member)
-                .where(predicate)
-                .fetch();
+        if (orderSearch.getOrderStatus() != null) {
+            query.where(order.status.eq(orderSearch.getOrderStatus()));
+        }
+
+        return query.fetch();
+
+
+
+
 
     }
 
