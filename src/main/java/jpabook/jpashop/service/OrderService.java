@@ -32,13 +32,13 @@ public class OrderService {
 
 
     public Long order(Long memberId, int cnt, Long... itemIds) {
-        Member findMember = memberRepository.findOne(memberId);
+        Member findMember = memberRepository.findById(memberId).get();
         Delivery delivery = new Delivery();
         delivery.setAddress(findMember.getAddress());
 
         ArrayList<OrderItem> orderItems = new ArrayList<>();
         for (Long itemId : itemIds) {
-            Item findItem = itemRepository.findOne(itemId);
+            Item findItem = itemRepository.findById(itemId).get();
             orderItems.add(OrderItem.createOrderItem(findItem, findItem.getPrice(), cnt));
 
         }
@@ -55,13 +55,13 @@ public class OrderService {
 
     public void cancel(Long orderId) {
 
-        Order order = orderRepository.findOne(orderId);
+        Order order = orderRepository.findById(orderId).get();
         order.cancel();
 
     }
 
     public List<Order> findOrders(OrderSearch orderSearch) {
-        return orderRepository.findAll(orderSearch);
+        return orderRepository.findAllOrderSearch(orderSearch);
     }
 
 

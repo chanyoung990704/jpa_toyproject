@@ -34,12 +34,12 @@ public class ItemService {
 
     @Transactional(readOnly = true)
     public Item findOne(Long id) {
-        return itemRepository.findOne(id);
+        return itemRepository.findById(id).get();
     }
 
 
     public void updateBook(Long itemId, String name, int price, int stockQuantity, String author, String isbn) {
-        Book one = (Book) itemRepository.findOne(itemId);
+        Book one = (Book) itemRepository.findById(itemId).get();
         one.setName(name);
         one.setPrice(price);
         one.setStockQuantity(stockQuantity);

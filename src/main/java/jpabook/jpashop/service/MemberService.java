@@ -22,7 +22,7 @@ public class MemberService {
 
         validateDuplicateMember(member);
 
-        memberRepository.saveMember(member);
+        memberRepository.save(member);
 
         return member.getId();
 
@@ -36,7 +36,7 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member findOne(Long id) {
-        return memberRepository.findOne(id);
+        return memberRepository.findById(id).get();
     }
 
 
@@ -44,7 +44,7 @@ public class MemberService {
     private void validateDuplicateMember(Member member) {
 
         String curName = member.getName();
-        List<Member>nameList = memberRepository.findByName(curName);
+        List<Member> nameList = memberRepository.findMembersByName(curName);
 
         if (!nameList.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원");
