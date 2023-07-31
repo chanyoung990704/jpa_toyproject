@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create # 설정된 엔티티를 기반으로 데이터베이스 테이블 자동 생성 및 수정
+      ddl-auto: update # 설정된 엔티티를 기반으로 데이터베이스 테이블 자동 생성 및 수정
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect # PostgreSQL용 Hibernate 방언 설정

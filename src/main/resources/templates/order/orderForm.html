@@ -19,11 +19,16 @@
     </div>
 
     <div class="form-group">
-      <label for="selectedProduct">상품 선택:</label>
-      <select class="form-control" id="selectedProduct" name="selectedProduct">
-        <option th:each="product : ${items}" th:value="${product.id}" th:text="${product.name}"></option>
-      </select>
+      <label>상품 선택:</label><br>
+      <th:block th:each="product : ${items}">
+        <label>
+          <input type="checkbox" name="selectedProductIds" th:value="${product.id}">
+          <span th:text="${product.name}"></span>
+        </label>
+        <br>
+      </th:block>
     </div>
+
 
 
     <div class="form-group">

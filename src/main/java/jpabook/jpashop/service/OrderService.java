@@ -12,6 +12,7 @@ import jpabook.jpashop.repository.OrderSearch;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,16 +31,19 @@ public class OrderService {
     }
 
 
-    public Long order(Long memberId, Long itemId, int cnt) {
+    public Long order(Long memberId, int cnt, Long... itemIds) {
         Member findMember = memberRepository.findOne(memberId);
-        Item findItem = itemRepository.findOne(itemId);
-
         Delivery delivery = new Delivery();
         delivery.setAddress(findMember.getAddress());
 
-        OrderItem orderItem = OrderItem.createOrderItem(findItem, findItem.getPrice(), cnt);
+        ArrayList<OrderItem> orderItems = new ArrayList<>();
+        for (Long itemId : itemIds) {
+            Item findItem = itemRepository.findOne(itemId);
+            orderItems.add(OrderItem.createOrderItem(findItem, findItem.getPrice(), cnt));
 
-        Order order = Order.createOrder(findMember, delivery, orderItem);
+        }
+
+        Order order = Order.createOrder(findMember, delivery, orderItems.toArray(new OrderItem[0]));
 
         orderRepository.save(order);
 

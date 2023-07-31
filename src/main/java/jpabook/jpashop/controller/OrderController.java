@@ -45,10 +45,10 @@ public class OrderController {
 
     @PostMapping("/order")
     public String order(@RequestParam("selectedMember") Long memberId,
-                        @RequestParam("selectedProduct") Long itemId,
+                        @RequestParam("selectedProductIds") List<Long> itemId,
                         @RequestParam("count") int count) {
 
-        orderService.order(memberId, itemId, count);
+        orderService.order(memberId, count, itemId.toArray(new Long[0]));
         return "redirect:/orders";
 
 
