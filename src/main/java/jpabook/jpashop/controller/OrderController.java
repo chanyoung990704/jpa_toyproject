@@ -1,5 +1,6 @@
 package jpabook.jpashop.controller;
 
+import jpabook.jpashop.controller.dto.OrderDTO;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.item.Item;
@@ -9,11 +10,13 @@ import jpabook.jpashop.service.MemberService;
 import jpabook.jpashop.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -35,8 +38,12 @@ public class OrderController {
         List<Member> members = memberService.findMembers();
         List<Item> items = itemService.findItems();
 
-        model.addAttribute("members", members);
-        model.addAttribute("items", items);
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setMemberList(members);
+        orderDTO.setItemList(items);
+
+
+        model.addAttribute("orderDto", orderDTO);
 
         return "order/orderForm";
 
@@ -44,11 +51,14 @@ public class OrderController {
 
 
     @PostMapping("/order")
-    public String order(@RequestParam("selectedMember") Long memberId,
-                        @RequestParam("selectedProductIds") List<Long> itemId,
-                        @RequestParam("count") int count) {
+    public String order(@Valid OrderDTO orderDto, BindingResult result) {
 
-        orderService.order(memberId, count, itemId.toArray(new Long[0]));
+        if (result.hasErrors()) {
+            return "redirect:/order";
+        }
+
+
+        orderService.order(orderDto.getMemberId(), orderDto.getCount(), orderDto.getItemIds().toArray(new Long[0]));
         return "redirect:/orders";
 
 

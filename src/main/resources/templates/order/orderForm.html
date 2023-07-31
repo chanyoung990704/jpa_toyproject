@@ -10,19 +10,19 @@
 
 <div class="container mt-4">
   <h2>회원 및 상품 선택 폼</h2>
-  <form action="/order" method="post" id="inputForm">
+  <form action="/order" method="post" id="inputForm" th:object="${orderDto}">
     <div class="form-group">
       <label for="selectedMember">회원 선택:</label>
-      <select class="form-control" id="selectedMember" name="selectedMember">
-        <option th:each="member : ${members}" th:value="${member.id}" th:text="${member.name}"></option>
+      <select class="form-control" id="selectedMember" name="selectedMember" th:field="*{memberId}" >
+        <option th:each="member : *{memberList}" th:value="${member.id}" th:text="${member.name}"></option>
       </select>
     </div>
 
     <div class="form-group">
       <label>상품 선택:</label><br>
-      <th:block th:each="product : ${items}">
+      <th:block th:each="product : *{itemList}">
         <label>
-          <input type="checkbox" name="selectedProductIds" th:value="${product.id}">
+          <input type="checkbox" name="selectedProductIds" th:value="${product.id}" th:field="*{itemIds}">
           <span th:text="${product.name}"></span>
         </label>
         <br>
@@ -33,7 +33,7 @@
 
     <div class="form-group">
       <label for="count">수량</label>
-      <input type="number" class="form-control" id="count" name="count"  required>
+      <input type="number" class="form-control" id="count" name="count" th:field="*{count}" required >
     </div>
 
     <button type="submit" class="btn btn-success">주문</button>
