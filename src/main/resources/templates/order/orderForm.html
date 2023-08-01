@@ -14,7 +14,7 @@
     <div class="form-group">
       <label for="selectedMember">회원 선택:</label>
       <select class="form-control" id="selectedMember" name="selectedMember" th:field="*{memberId}" >
-        <option th:each="member : *{memberList}" th:value="${member.id}" th:text="${member.name}"></option>
+        <option th:each="member : *{memberList}" th:value="${member.id}" th:text="${member.username}"></option>
       </select>
     </div>
 

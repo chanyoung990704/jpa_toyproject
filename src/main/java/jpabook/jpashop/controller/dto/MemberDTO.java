@@ -11,7 +11,9 @@ public class MemberDTO {
 
 
     @NotEmpty(message = "이름은 필수적입니다.")
-    private String name;
+    private String username;
+
+    private String password;
 
     private String city;
 

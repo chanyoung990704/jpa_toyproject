@@ -4,6 +4,7 @@ import jpabook.jpashop.controller.dto.MemberDTO;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.service.MemberService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,10 +17,12 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, PasswordEncoder passwordEncoder) {
         this.memberService = memberService;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -37,11 +40,12 @@ public class MemberController {
             return "/members/createMemberForm";
         }
 
-
         Address address = new Address(memberDTO.getCity(), memberDTO.getStreet(), memberDTO.getZipcode());
         Member member = new Member();
-        member.setName(memberDTO.getName());
+        member.setUsername(memberDTO.getUsername());
+        member.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
         member.setAddress(address);
+        member.setRole("USER");
 
         memberService.join(member);
 
@@ -54,4 +58,9 @@ public class MemberController {
         model.addAttribute("memberList", memberService.findMembers());
         return "members/memberList";
     }
+
+
+
+
+
 }

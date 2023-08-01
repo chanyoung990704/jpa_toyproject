@@ -7,10 +7,15 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long> , MemberRepositoryCustom{
 
-    List<Member> findMembersByName(String name);
+    List<Member> findMembersByUsername(String username);
+
+    Optional<Member> findByUsername(String userName);
+
+
 
 }

@@ -34,7 +34,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .join(order.member, member);
 
         if (StringUtils.hasText(orderSearch.getMemberName())) {
-            query.where(member.name.containsIgnoreCase(orderSearch.getMemberName()));
+            query.where(member.username.containsIgnoreCase(orderSearch.getMemberName()));
         }
 
         if (orderSearch.getOrderStatus() != null) {
