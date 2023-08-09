@@ -72,5 +72,10 @@ public class MemberService  {
     }
 
 
+    public void update(Long id, String username) {
+        Optional<Member> byId = memberRepository.findById(id);
+        byId.get().setUsername(username);
+    }
+
 
 }
