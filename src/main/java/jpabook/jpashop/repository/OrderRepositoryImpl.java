@@ -1,8 +1,11 @@
 package jpabook.jpashop.repository;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jpabook.jpashop.api.dto.SimpleQueryDto;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.QDelivery;
 import jpabook.jpashop.domain.QMember;
 import jpabook.jpashop.domain.QOrder;
 import org.springframework.stereotype.Repository;
@@ -49,6 +52,38 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
     }
 
+    @Override
+    public List<Order> findAllWithMemberDelivery() {
+
+        QMember member = QMember.member;
+        QOrder order = QOrder.order;
+        QDelivery delivery = QDelivery.delivery;
+
+        JPAQuery<Order> query = queryFactory.selectFrom(order)
+                .join(order.member, member).fetchJoin()
+                .join(order.delivery, delivery).fetchJoin();
+
+
+        return query.fetch();
+
+    }
+
+    @Override
+    public List<SimpleQueryDto> findOrderDtos() {
+        QMember member = QMember.member;
+        QOrder order = QOrder.order;
+        QDelivery delivery = QDelivery.delivery;
+
+        JPAQuery<SimpleQueryDto> query = queryFactory.select(Projections.bean(SimpleQueryDto.class, order.id, order.member.username, order.orderDate,
+                order.status, order.delivery.address))
+                .from(order)
+                .join(order.member, member)
+                .join(order.delivery, delivery);
+
+
+        return query.fetch();
+
+    }
 
 
 }

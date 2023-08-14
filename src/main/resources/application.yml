@@ -10,3 +10,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect # PostgreSQL용 Hibernate 방언 설정
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
