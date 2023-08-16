@@ -4,10 +4,9 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.jpashop.api.dto.SimpleQueryDto;
-import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.QDelivery;
-import jpabook.jpashop.domain.QMember;
-import jpabook.jpashop.domain.QOrder;
+import jpabook.jpashop.domain.*;
+import jpabook.jpashop.domain.item.QItem;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -79,6 +78,45 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .from(order)
                 .join(order.member, member)
                 .join(order.delivery, delivery);
+
+
+        return query.fetch();
+
+    }
+
+    @Override
+    public List<Order> findAllWithItem() {
+        QMember member = QMember.member;
+        QOrder order = QOrder.order;
+        QDelivery delivery = QDelivery.delivery;
+        QItem item = QItem.item;
+        QOrderItem orderItem = QOrderItem.orderItem;
+
+        JPAQuery<Order> query = queryFactory.selectDistinct(order)
+                .from(order)
+                .join(order.member, member).fetchJoin()
+                .join(order.delivery, delivery).fetchJoin()
+                .join(order.orderItems, orderItem).fetchJoin()
+                .join(orderItem.item, item).fetchJoin();
+
+
+        return query.fetch();
+
+    }
+
+    @Override
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+
+        QMember member = QMember.member;
+        QOrder order = QOrder.order;
+        QDelivery delivery = QDelivery.delivery;
+
+
+        JPAQuery<Order> query = queryFactory.selectFrom(order)
+                .join(order.member, member).fetchJoin()
+                .join(order.delivery, delivery).fetchJoin()
+                .offset(offset)
+                .limit(limit);
 
 
         return query.fetch();
