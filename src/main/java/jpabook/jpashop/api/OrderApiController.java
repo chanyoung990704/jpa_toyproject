@@ -6,6 +6,8 @@ import jpabook.jpashop.domain.OrderItem;
 import jpabook.jpashop.domain.OrderStatus;
 import jpabook.jpashop.repository.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.query.OrderQueryDto;
+import jpabook.jpashop.repository.query.OrderQueryRepository;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,10 +22,12 @@ public class OrderApiController {
 
 
     private final OrderRepository orderRepository;
+    private final OrderQueryRepository orderQueryRepository;
 
 
-    public OrderApiController(OrderRepository orderRepository) {
+    public OrderApiController(OrderRepository orderRepository, OrderQueryRepository orderQueryRepository) {
         this.orderRepository = orderRepository;
+        this.orderQueryRepository = orderQueryRepository;
     }
 
 
@@ -77,6 +81,7 @@ public class OrderApiController {
     // ToOne관계는 페치 조인 사용
     // ToMany관계는 페치 조인 사용 x
     // ToMany관계를 거쳐 ToOne 관계를 갖는 경우에도 페치 조인 사용 x
+    // batch_size를 이용해 한번에 DB 조회해서 사용
     @GetMapping("/api/v3.1/orders")
     public List<OrdersDto> ordersV3_page(@RequestParam(value = "offset", defaultValue = "0") int offset,
                                          @RequestParam(value = "limit", defaultValue = "100") int limit) {
@@ -89,6 +94,11 @@ public class OrderApiController {
     }
 
 
+    @GetMapping("/api/v4/orders")
+    public List<OrderQueryDto> ordersV4() {
+
+        return orderQueryRepository.findOrderQueryDtos();
+    }
 
 
     @Data
