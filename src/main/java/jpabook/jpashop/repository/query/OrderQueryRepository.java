@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class OrderQueryRepository {
@@ -70,4 +72,54 @@ public class OrderQueryRepository {
     }
 
 
+    public List<OrderQueryDto> findAllByDto_opt() {
+
+        List<OrderQueryDto> orders = findOrder();
+        List<Long> result = orders.stream()
+                .map(o -> o.getOrderId())
+                .collect(Collectors.toList());
+
+        QOrderItem orderItem = QOrderItem.orderItem;
+        QItem item = QItem.item;
+        QOrder order = QOrder.order;
+
+        JPAQuery<OrderItemQueryDto> query = queryFactory.select(new QOrderItemQueryDto(orderItem.order.id, orderItem.item.name, orderItem.orderPrice, orderItem.count))
+                .from(orderItem)
+                .join(orderItem.order, order)
+                .join(orderItem.item, item)
+                .where(orderItem.order.id.in(result));
+
+        Map<Long, List<OrderItemQueryDto>> orderItemMap = query.stream()
+                .collect(Collectors.groupingBy(oi -> oi.getOrderId()));
+
+
+        orders.stream()
+                .forEach(orderQueryDto -> orderQueryDto.setOrderItems(orderItemMap.get(orderQueryDto.getOrderId())));
+
+
+        return orders;
+
+
+    }
+
+    public List<OrderFlatDto> findAllByDto_flat() {
+
+        QOrder order = QOrder.order;
+        QMember member = QMember.member;
+        QDelivery delivery = QDelivery.delivery;
+        QItem item = QItem.item;
+        QOrderItem orderItem = QOrderItem.orderItem;
+
+        JPAQuery<OrderFlatDto> query = queryFactory.select(new QOrderFlatDto(order.id, order.member.username, order.orderDate, order.status,
+                        order.delivery.address, orderItem.item.name, orderItem.orderPrice, orderItem.count))
+                .from(order)
+                .join(order.member, member)
+                .join(order.delivery, delivery)
+                .join(order.orderItems, orderItem)
+                .join(orderItem.item, item);
+
+
+        return query.fetch();
+
+    }
 }
