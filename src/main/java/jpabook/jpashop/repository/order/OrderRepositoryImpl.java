@@ -1,4 +1,4 @@
-package jpabook.jpashop.repository;
+package jpabook.jpashop.repository.order;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -6,7 +6,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.jpashop.api.dto.SimpleQueryDto;
 import jpabook.jpashop.domain.*;
 import jpabook.jpashop.domain.item.QItem;
-import org.springframework.data.domain.PageRequest;
+import jpabook.jpashop.repository.OrderSearch;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 

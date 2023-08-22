@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>게시글 목록</title>
+  <!-- 부트스트랩 CSS -->
+  <th:block th:replace="fragments/head :: head"></th:block>
+</head>
+<body>
+<th:block th:replace="fragments/body :: body"></th:block>
+
+<div class="container mt-4">
+  <h2>게시글 목록</h2>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>이름</th>
+      <th>게시글</th>
+      <th>날짜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- 회원 목록 데이터를 반복적으로 출력 -->
+    <tr th:each="post : ${posts}">
+      <td th:text="${post.name}">홍길동</td>
+      <td>
+        <a th:utext="${post.title}" th:href="@{'/posts/' + ${post.postID} }">
+          Link Text Here
+        </a>
+      </td>
+      <td th:text="${post.date}">123213</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+<footer>
+  <th:block th:replace="fragments/footer :: footer"></th:block>
+</footer>
+
+<!-- 부트스트랩 JS 및 jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

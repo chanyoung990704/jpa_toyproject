@@ -4,7 +4,7 @@ import jpabook.jpashop.api.dto.SimpleQueryDto;
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Order;
 import jpabook.jpashop.domain.OrderStatus;
-import jpabook.jpashop.repository.OrderRepository;
+import jpabook.jpashop.repository.order.OrderRepository;
 import jpabook.jpashop.repository.OrderSearch;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;

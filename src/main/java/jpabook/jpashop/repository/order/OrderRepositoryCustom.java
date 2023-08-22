@@ -1,7 +1,8 @@
-package jpabook.jpashop.repository;
+package jpabook.jpashop.repository.order;
 
 import jpabook.jpashop.api.dto.SimpleQueryDto;
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.repository.OrderSearch;
 
 import java.util.List;
 
