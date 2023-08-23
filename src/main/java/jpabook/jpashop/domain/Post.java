@@ -31,7 +31,7 @@ public class Post {
     private List<Comment> comments = new ArrayList<>();
 
     // 연관관계
-    public void setMembers(Member member) {
+    public void set_Member(Member member) {
         this.member = member;
         member.getPosts().add(this);
     }

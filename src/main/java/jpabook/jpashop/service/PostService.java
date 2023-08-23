@@ -26,17 +26,8 @@ public class PostService {
     }
 
 
-    public void post(Long memberId, String title, String content) {
-
-        Member findMember = memberRepository.findById(memberId).get();
-        Post post = new Post();
-        post.setMembers(findMember);
-        post.setPostDate(LocalDateTime.now());
-        post.setTitle(title);
-        post.setContent(content);
-
+    public void save(Post post) {
         postRepository.save(post);
-
     }
 
 

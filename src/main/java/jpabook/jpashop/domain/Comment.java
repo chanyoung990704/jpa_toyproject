@@ -29,12 +29,12 @@ public class Comment {
     private String content;
 
     // 연관관계
-    public void setMember(Member member) {
+    public void set_Member(Member member) {
         this.member = member;
         member.getComments().add(this);
     }
 
-    public void setPost(Post post) {
+    public void set_Post(Post post) {
         this.post = post;
         post.getComments().add(this);
     }
